@@ -3,7 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <!-- 針對平板鎖定縮放與觸控最佳化 -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <!-- PWA / App 化設定，支援加入主畫面全螢幕 -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#1a365d">
     <title>太陽帝國的黃金密碼</title>
     <!-- 引入 Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,6 +17,12 @@
     <link rel="stylesheet" href="styles.css?v=2">
 </head>
 <body>
+    <!-- 強制橫向螢幕提示 -->
+    <div id="orientation-warning">
+        <h1 style="font-size: 5rem; margin-bottom: 20px;">🔄</h1>
+        <h2 style="font-size: 2rem; line-height: 1.5;">冒險者，請將您的平板或手機<br>「轉為橫向」以進行遊戲</h2>
+    </div>
+
     <div id="app">
         <!-- 登入大廳 (Login View) -->
         <div id="login-view" class="view active">
