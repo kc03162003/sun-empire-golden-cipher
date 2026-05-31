@@ -299,6 +299,29 @@ input {
 
 .modal.hidden { display: none; }
 
+/* 直式螢幕強制橫向提示 */
+#orientation-warning {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background-color: var(--sea-blue);
+    color: white;
+    z-index: 999999;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+@media screen and (orientation: portrait) {
+    #orientation-warning {
+        display: flex;
+    }
+    #app {
+        display: none !important;
+    }
+}
+
 .modal-content {
     background-color: var(--parchment);
     width: 90%;
