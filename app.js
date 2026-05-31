@@ -141,6 +141,20 @@ document.getElementById('start-btn').addEventListener('click', () => {
         return;
     }
     teamName = name;
+    
+    // 嘗試進入全螢幕模式以增加沉浸感
+    try {
+        if (document.documentElement.requestFullscreen) {
+            document.documentElement.requestFullscreen();
+        } else if (document.documentElement.webkitRequestFullscreen) {
+            document.documentElement.webkitRequestFullscreen();
+        } else if (document.documentElement.msRequestFullscreen) {
+            document.documentElement.msRequestFullscreen();
+        }
+    } catch(err) {
+        console.log("全螢幕請求失敗:", err);
+    }
+
     initMap();
     switchView('map');
 });
