@@ -7,24 +7,26 @@
     --dark-text: #2c1e16; /* 深棕色文字 */
 }
 
-* {
-    box-sizing: border-box;
+html, body {
     margin: 0;
     padding: 0;
-    /* 避免平板觸控時反白文字，提升 App 原生感 */
-    user-select: none; 
+    width: 100%;
+    height: 100dvh; /* 使用動態高度，完美適應 Safari 網址列 */
+    font-family: 'Noto Serif TC', serif;
+    background-color: var(--sea-blue);
+    color: var(--dark-text); /* 補回原本的字體顏色 */
+    overflow: hidden;
+    /* 課堂 iPad 最佳化防呆機制 */
+    overscroll-behavior: none; /* 禁用下拉重新整理 */
+    -webkit-user-select: none; /* 禁用長按選取文字 */
+    user-select: none;
+    -webkit-touch-callout: none; /* 禁用長按跳出選單 */
 }
 
-body {
-    font-family: 'Noto Serif TC', serif; /* 內文字體 */
-    background-color: var(--sea-blue);
-    color: var(--dark-text);
-    overflow: hidden; /* 鎖定畫面不讓其滾動 */
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+/* 確保輸入框可以正常輸入與選取 */
+input {
+    -webkit-user-select: auto;
+    user-select: auto;
 }
 
 h1, h2, h3 {
@@ -37,7 +39,7 @@ h1, h2, h3 {
     top: 0;
     left: 0;
     width: 100vw;
-    height: 100vh;
+    height: 100dvh; /* 使用動態高度適應 iPad */
     display: none;
     flex-direction: column;
     justify-content: center;
@@ -303,7 +305,7 @@ input {
 #orientation-warning {
     display: none;
     position: fixed;
-    top: 0; left: 0; width: 100vw; height: 100vh;
+    top: 0; left: 0; width: 100vw; height: 100dvh;
     background-color: var(--sea-blue);
     color: white;
     z-index: 999999;
