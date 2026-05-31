@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <!-- 針對平板鎖定縮放與觸控最佳化 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>太陽帝國的黃金密碼</title>
+    <!-- 引入 Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Noto+Serif+TC:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=2">
+</head>
+<body>
+    <div id="app">
+        <!-- 登入大廳 (Login View) -->
+        <div id="login-view" class="view active">
+            <div class="login-container">
+                <h1 class="game-title">太陽帝國的<br>黃金密碼</h1>
+                <input type="text" id="team-name-input" placeholder="請輸入小隊名稱" autocomplete="off" style="width: 100%; max-width: 300px; text-align: center;">
+                <button id="start-btn" class="primary-btn">啟航穿越</button>
+            </div>
+        </div>
+
+        <!-- 航海任務圖 (Map View) -->
+        <div id="map-view" class="view">
+            <!-- 底層黑白地圖 -->
+            <div id="map-layer-bw" class="map-layer"></div>
+            <!-- 上層彩色地圖 (預設被遮罩隱藏) -->
+            <div id="map-layer-color" class="map-layer"></div>
+            <!-- 隱形關卡觸控熱區 -->
+            <div id="pins-container"></div>
+            <!-- 結算按鈕預設隱藏 -->
+            <button id="finish-btn" class="primary-btn hidden">結算總成績</button>
+        </div>
+
+        <!-- 解謎挑戰視窗 (Level Modal) -->
+        <div id="level-modal" class="modal hidden">
+            <div class="modal-content">
+                <button id="close-modal-btn" class="close-btn">&times;</button>
+                <div class="modal-header">
+                    <h2 id="modal-level-title">關卡名稱</h2>
+                    <!-- 獨立計時器 -->
+                    <div class="timer-display" id="modal-timer">00:00</div>
+                </div>
+                <div class="modal-body">
+                    <!-- 左側/上方 關卡圖片區 -->
+                    <div class="level-image-placeholder">
+                        <img id="modal-level-image" src="" alt="關卡內容圖片">
+                    </div>
+                    <!-- 右側/下方 操作區 -->
+                    <div class="level-controls">
+                        <!-- 第一階段：解謎 -->
+                        <div id="step-1-controls" style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+                            <input type="text" id="answer-input" placeholder="請輸入解答密碼" autocomplete="off">
+                            <button id="submit-answer-btn" class="primary-btn">驗證密碼</button>
+                            <div id="answer-feedback" class="feedback"></div>
+                        </div>
+                        <!-- 第二階段：紀錄紫光密碼 (預設隱藏) -->
+                        <div id="step-2-controls" style="display: none; flex-direction: column; align-items: center; width: 100%;">
+                            <div class="feedback success" style="margin-bottom: 15px; font-size: 1.5rem;">✅ 密碼正確！</div>
+                            <p style="margin-bottom: 20px; font-weight: bold; color: var(--sea-blue); font-size: 1.3rem; text-align: center;">請使用紫光燈照射海報<br>並記錄下隱藏數字：</p>
+                            <input type="text" inputmode="numeric" pattern="[0-9]*" id="uv-code-input" placeholder="請輸入紫光數字" autocomplete="off">
+                            <button id="save-uv-btn" class="primary-btn">驗證紫光數字</button>
+                            <div id="uv-feedback" class="feedback"></div>
+                        </div>
+                        <!-- 第三階段：紫光密碼背後的故事 (預設隱藏) -->
+                        <div id="step-3-controls" style="display: none; flex-direction: column; align-items: center; width: 100%;">
+                            <div class="feedback success" style="margin-bottom: 15px; font-size: 1.5rem;">✅ 紀錄成功！</div>
+                            <p id="uv-meaning-text" style="margin-bottom: 20px; font-weight: bold; color: var(--sea-blue); font-size: 1.2rem; text-align: center; background: rgba(255,255,255,0.7); padding: 15px; border-radius: 8px; border: 2px solid var(--compass-gold); line-height: 1.5;"></p>
+                            <button id="close-modal-final-btn" class="primary-btn">返回地圖</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 成績結算視窗 (Results View) -->
+        <div id="results-view" class="view" style="background-image: url('assets/results-bg.png'); background-size: cover; background-position: center;">
+            <!-- JS 會在這裡動態產生 7 個絕對定位的時間紅框 -->
+            <div id="results-container" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></div>
+            <button id="go-to-uv-btn" class="primary-btn" style="position: absolute; left: 87.8%; top: 30.5%; transform: translate(-50%, -50%); white-space: nowrap;">獲取紫光密碼</button>
+        </div>
+
+        <!-- 紫光密碼總結視窗 (UV Summary View) -->
+        <div id="uv-summary-view" class="view">
+            <div class="login-container">
+                <h2 style="font-size: 2.5rem; color: var(--wax-red); margin-bottom: 10px; text-align: center;">紫光密碼意義對照</h2>
+                <div id="uv-codes-list">
+                    <!-- 數字與故事會顯示在這裡 -->
+                </div>
+                <p style="font-size: 1.2rem; color: var(--sea-blue); text-align: center; margin-top: 15px; font-weight: bold;">提示：紫光密碼加總是開啟哥倫布密碼匣的關鍵</p>
+            </div>
+            <!-- 將按鈕移到整個畫面的右下角 -->
+            <button id="go-to-leaderboard-btn" class="primary-btn" style="position: absolute; bottom: 5%; right: 5%; z-index: 10;">查看榮譽英雄榜</button>
+        </div>
+
+        <!-- 榮譽英雄榜 (Leaderboard View) -->
+        <div id="leaderboard-view" class="view">
+            <div class="leaderboard-container">
+                <!-- 固定表頭獨立出來，避免被滾動文字重疊 -->
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 5px; table-layout: fixed;">
+                    <thead>
+                        <tr>
+                            <th style="width: 20%; padding: 10px; text-align: center; font-size: 1.5rem; color: var(--sea-blue); border-bottom: 2px solid var(--compass-gold);">名次</th>
+                            <th style="width: 50%; padding: 10px; text-align: center; font-size: 1.5rem; color: var(--sea-blue); border-bottom: 2px solid var(--compass-gold);">冒險小隊</th>
+                            <th style="width: 30%; padding: 10px; text-align: center; font-size: 1.5rem; color: var(--sea-blue); border-bottom: 2px solid var(--compass-gold);">總耗時</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div class="leaderboard-scroll" style="width: 100%; overflow-y: auto;">
+                    <table id="leaderboard-table" style="width: 100%; border-collapse: collapse; table-layout: fixed;">
+                        <tbody id="leaderboard-body">
+                            <!-- 排行榜資料會由 JS 生成 -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- 將按鈕移到整個畫面的右下角，並設定為 75% 大小 -->
+            <button id="restart-btn" class="secondary-btn" style="position: absolute; bottom: 5%; right: 5%; z-index: 10; transform: scale(0.75); transform-origin: bottom right;">重新開始下一組</button>
+        </div>
+    </div>
+
+    <!-- 載入 Firebase Compat SDK，避免本地端檔案開啟的 CORS 問題 -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    
+    <!-- 載入 Confetti 煙火特效庫 -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <!-- 載入核心邏輯 (加上版本號強制更新) -->
+    <script src="app.js?v=2"></script>
+</body>
+</html>

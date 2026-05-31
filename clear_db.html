@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Clear Leaderboard DB</title>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+</head>
+<body style="font-family: sans-serif; text-align: center; padding-top: 50px;">
+    <h1 id="status">正在清除資料庫紀錄...</h1>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCmjHcNVcBnZP6wGZye1cOuwhbgR028gFs",
+            authDomain: "alba-a3861.firebaseapp.com",
+            projectId: "alba-a3861",
+            storageBucket: "alba-a3861.firebasestorage.app",
+            messagingSenderId: "133561460813",
+            appId: "1:133561460813:web:200fd7c428716872f3d404"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        async function clearDb() {
+            try {
+                const snapshot = await db.collection("leaderboard").get();
+                if (snapshot.empty) {
+                    document.getElementById('status').innerHTML = "資料庫已是空的！<br><span style='font-size: 1rem; color: gray;'>請關閉此分頁並返回遊戲。</span>";
+                    return;
+                }
+                const batch = db.batch();
+                snapshot.docs.forEach(doc => {
+                    batch.delete(doc.ref);
+                });
+                await batch.commit();
+                document.getElementById('status').innerHTML = "<span style='color: green;'>所有測試紀錄已成功刪除！</span><br><span style='font-size: 1rem; color: gray;'>請關閉此分頁並返回遊戲。</span>";
+            } catch (error) {
+                document.getElementById('status').innerHTML = "<span style='color: red;'>發生錯誤: " + error.message + "</span>";
+            }
+        }
+        clearDb();
+    </script>
+</body>
+</html>

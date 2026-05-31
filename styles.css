@@ -1,0 +1,450 @@
+/* === 全域變數 (大航海時代配色) === */
+:root {
+    --parchment: #f4e4bc; /* 羊皮紙舊黃色 */
+    --sea-blue: #1b263b; /* 深海復古藍 */
+    --compass-gold: #d4af37; /* 航海羅盤金 */
+    --wax-red: #9b2226; /* 封蠟紅 */
+    --dark-text: #2c1e16; /* 深棕色文字 */
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    /* 避免平板觸控時反白文字，提升 App 原生感 */
+    user-select: none; 
+}
+
+body {
+    font-family: 'Noto Serif TC', serif; /* 內文字體 */
+    background-color: var(--sea-blue);
+    color: var(--dark-text);
+    overflow: hidden; /* 鎖定畫面不讓其滾動 */
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+h1, h2, h3 {
+    font-family: 'Cinzel', serif; /* 標題英數使用歷史奇幻感字體 */
+}
+
+/* === 畫面切換機制 === */
+.view {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+    background-position: center;
+}
+
+.view.active {
+    display: flex;
+}
+
+/* === 共用 UI 元件 === */
+input {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 1.5rem;
+    padding: 15px 20px;
+    border: 3px solid var(--compass-gold);
+    border-radius: 8px;
+    background-color: rgba(244, 228, 188, 0.9);
+    color: var(--dark-text);
+    outline: none;
+    text-align: center;
+    width: 80%;
+    max-width: 400px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+.primary-btn, .secondary-btn {
+    font-family: 'Cinzel', 'Noto Serif TC', serif;
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 15px 40px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.1s, background-color 0.2s;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.5);
+}
+
+.primary-btn {
+    background-color: var(--compass-gold);
+    color: var(--sea-blue);
+    border: 2px solid #fff;
+}
+
+.primary-btn:active {
+    transform: scale(0.95);
+    background-color: #b5952f;
+}
+
+.secondary-btn {
+    background-color: var(--wax-red);
+    color: #fff;
+    border: 2px solid var(--compass-gold);
+}
+
+.secondary-btn:active {
+    transform: scale(0.95);
+    background-color: #7a1b1e;
+}
+
+/* === 登入大廳 (Login View) === */
+#login-view {
+    background-image: url('assets/login-bg.png'); 
+    background-size: cover;
+    background-position: center;
+    background-color: var(--sea-blue); /* 尚未有圖時的底色 */
+}
+
+/* 讓登入頁面的框框完全透明融入背景 */
+#login-view .login-container {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    position: absolute;
+    bottom: 5%; /* 放置在畫面下方，避免擋住您的精美設計圖 */
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0;
+    width: 90%;
+    max-width: 400px;
+}
+
+#login-view .game-title {
+    display: none; /* 隱藏原本的標題，因為背景圖已經有了 */
+}
+
+/* 結算頁面時間座標框 (對位用) */
+.result-time-box {
+    position: absolute;
+    /* 測試對位用的紅框已移除 */
+    background-color: transparent;
+    border: none;
+    
+    color: white; 
+    font-size: 3rem; /* 放大兩倍 */
+    font-weight: bold;
+    font-family: monospace;
+    padding: 5px 10px;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    white-space: nowrap; /* 強制不分行 */
+}
+
+/* 紫光與排行榜背景 */
+#uv-summary-view {
+    background-image: url('assets/uv-bg.png');
+    background-size: cover;
+    background-position: center;
+    background-color: var(--sea-blue);
+}
+
+/* 讓紫光密碼完全融入背景圖 */
+#uv-summary-view .login-container {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    background-image: none;
+    padding: 0;
+    
+    width: 75%; /* 寬度拉大15% */
+    height: 60%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#uv-codes-list {
+    background: transparent;
+    border: none;
+    max-height: 100%;
+    overflow-y: auto;
+}
+
+#leaderboard-view {
+    background-image: url('assets/leaderboard-bg.png');
+    background-size: cover;
+    background-position: center;
+    background-color: var(--sea-blue);
+}
+
+/* 讓排行榜完全融入背景圖 */
+#leaderboard-view .leaderboard-container {
+    /* 測試對位用的紅底與紅框已移除 */
+    background-color: transparent;
+    border: none;
+    
+    box-shadow: none;
+    background-image: none;
+    
+    /* 寬度 50%、長度(高度) 60%，並定點至指定座標 */
+    width: 50%;
+    height: 60%;
+    position: absolute;
+    top: 66%;
+    left: 51.5%;
+    transform: translate(-50%, -50%);
+}
+
+.login-container {
+    background-color: var(--parchment);
+    padding: 50px;
+    border-radius: 15px;
+    border: 5px solid var(--compass-gold);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    /* 模擬羊皮紙紋理 */
+    background-image: radial-gradient(circle, transparent 20%, #e6d3a3 120%);
+}
+
+.game-title {
+    font-size: 4rem;
+    color: var(--wax-red);
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    margin-bottom: 40px;
+    line-height: 1.2;
+}
+
+/* === 航海任務圖 (Map View) === */
+#map-view {
+    background-color: #333; 
+    position: relative;
+}
+
+.map-layer {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-size: cover;
+    background-position: center;
+}
+
+#map-layer-bw {
+    background-image: url('assets/map-bg-bw.png');
+}
+
+#map-layer-color {
+    background-image: url('assets/map-bg-color.png');
+    /* 預設隱藏所有彩色部分，等 JS 加上遮罩才會顯示 */
+    -webkit-mask-image: none;
+    mask-image: none;
+    transition: -webkit-mask-image 0.8s ease, mask-image 0.8s ease;
+}
+
+#pins-container {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+}
+
+.pin {
+    position: absolute;
+    width: 80px; /* 隱形熱區大小 */
+    height: 80px;
+    background-color: transparent; 
+    border: none;
+    border-radius: 50%;
+    color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+    
+    /* 測試用：開發時可以把這行註解打開，會看到半透明紅色區塊，方便對準地標 */
+    /* background-color: rgba(255,0,0,0.3); border: 2px dashed red; */
+}
+
+.pin.completed { 
+    cursor: default; 
+}
+
+#finish-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2rem;
+    padding: 20px 50px;
+    z-index: 10;
+    box-shadow: 0 0 30px rgba(212, 175, 55, 0.8);
+}
+#finish-btn.hidden { display: none; }
+
+/* === 挑戰視窗 (Modal) === */
+.modal {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.8);
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal.hidden { display: none; }
+
+.modal-content {
+    background-color: var(--parchment);
+    width: 90%;
+    height: 90%;
+    border-radius: 15px;
+    border: 5px solid var(--compass-gold);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background-image: radial-gradient(circle, transparent 20%, #e6d3a3 120%);
+}
+
+.close-btn {
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--wax-red);
+    color: white;
+    border: 3px solid var(--compass-gold);
+    font-size: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.5);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--compass-gold);
+    padding-bottom: 10px;
+}
+
+.timer-display {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--wax-red);
+    font-family: monospace;
+    background-color: rgba(255,255,255,0.5);
+    padding: 5px 15px;
+    border-radius: 8px;
+    border: 2px solid var(--compass-gold);
+}
+
+.modal-body {
+    display: flex;
+    flex: 1;
+    gap: 20px;
+}
+
+.level-image-placeholder {
+    flex: 2;
+    background-color: rgba(0,0,0,0.1);
+    border: 2px dashed var(--compass-gold);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.level-image-placeholder img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.level-controls {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255,255,255,0.3);
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid var(--compass-gold);
+}
+
+.feedback {
+    margin-top: 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    min-height: 1.5rem;
+}
+.feedback.error { color: var(--wax-red); }
+.feedback.success { color: #2e7d32; }
+
+/* === 排行榜 (Leaderboard View) === */
+.leaderboard-container {
+    background-color: var(--parchment);
+    width: 80%;
+    height: 80%;
+    border-radius: 15px;
+    border: 5px solid var(--compass-gold);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    background-image: radial-gradient(circle, transparent 20%, #e6d3a3 120%);
+}
+
+.leaderboard-container h2 {
+    font-size: 3rem;
+    color: var(--wax-red);
+    margin-bottom: 20px;
+}
+
+.leaderboard-scroll {
+    flex: 1;
+    width: 100%;
+    overflow-y: auto;
+    margin-bottom: 20px;
+    border-top: 2px solid var(--compass-gold);
+    border-bottom: 2px solid var(--compass-gold);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 15px;
+    text-align: center;
+    font-size: 1.5rem;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+th {
+    color: var(--sea-blue);
+    position: sticky;
+    top: 0;
+    background-color: transparent; /* 取消原本的表頭底色，以利融入背景 */
+    z-index: 1;
+}
+
+/* 滾動條美化 */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--compass-gold); border-radius: 5px; }
