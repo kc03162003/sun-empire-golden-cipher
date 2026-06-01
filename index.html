@@ -14,7 +14,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Noto+Serif+TC:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=28">
+    <link rel="stylesheet" href="styles.css?v=29">
 </head>
 <body>
     <!-- 強制橫向螢幕提示 -->
@@ -90,7 +90,7 @@
         </div>
 
         <!-- 成績結算視窗 (Results View) -->
-        <div id="results-view" class="view" style="background-image: url('assets/results-bg.png'); background-size: cover; background-position: center;">
+        <div id="results-view" class="view" style="background-image: url('assets/results-bg.png'); background-size: 100% 100%; background-position: center;">
             <!-- JS 會在這裡動態產生 7 個絕對定位的時間紅框 -->
             <div id="results-container" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></div>
             <button id="go-to-uv-btn" class="primary-btn" style="position: absolute; left: 87.8%; top: 30.5%; transform: translate(-50%, -50%); white-space: nowrap;">獲取紫光密碼</button>
@@ -137,7 +137,7 @@
         </div>
 
         <!-- 班際排名 (Class Leaderboard View) -->
-        <div id="class-leaderboard-view" class="view" style="background-image: url('assets/class-bg.png'); background-size: cover; background-position: center;">
+        <div id="class-leaderboard-view" class="view" style="background-image: url('assets/class-bg.png'); background-size: 100% 100%; background-position: center;">
             <div class="leaderboard-container">
                 <table style="width: 100%; border-collapse: collapse; margin-bottom: 5px; table-layout: fixed;">
                     <thead>
@@ -168,6 +168,6 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
     <!-- 主程式邏輯 -->
-    <script src="app.js?v=28"></script>
+    <script src="app.js?v=29"></script>
 </body>
 </html>
