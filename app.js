@@ -130,6 +130,8 @@ function initMap() {
 
     if (allCompleted) {
         finishBtn.classList.remove('hidden');
+    } else {
+        finishBtn.classList.add('hidden');
     }
 }
 
