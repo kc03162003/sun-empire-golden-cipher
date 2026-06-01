@@ -118,7 +118,7 @@ function initMap() {
     if (completedLevels.length > 0) {
         // 為每個過關的點產生一個圓形漸層透明遮罩，透出底下的彩色圖
         const maskGradients = completedLevels.map(l => 
-            `radial-gradient(circle 80px at ${l.x} ${l.y}, black 40%, rgba(0,0,0,0.5) 70%, transparent 100%)`
+            `radial-gradient(circle 150px at ${l.x} ${l.y}, black 40%, rgba(0,0,0,0.5) 70%, transparent 100%)`
         ).join(', ');
         colorLayer.style.webkitMaskImage = maskGradients;
         colorLayer.style.maskImage = maskGradients;
@@ -329,13 +329,69 @@ goToLeaderboardBtn.addEventListener('click', () => {
     loadLeaderboard();
 });
 
+// 排行榜：重新開始下一組
+document.getElementById('restart-btn').addEventListener('click', () => {
+    if(confirm("確定要結束這組的冒險並回到首頁嗎？")) {
+        teamName = "";
+        levelStatus.forEach(l => {
+            l.completed = false;
+            l.timeSec = 0;
+            l.uvCode = "";
+        });
+        teamNameInput.value = "";
+        switchView('login');
+    }
+});
+
+// 排行榜：返回結算頁面
+document.getElementById('back-to-results-btn').addEventListener('click', () => {
+    switchView('results');
+});
+
+// 排行榜：刪除紀錄
+document.getElementById('delete-records-btn').addEventListener('click', async () => {
+    const pwd = prompt("請輸入刪除紀錄密碼：");
+    if(pwd === "5168") {
+        try {
+            const snapshot = await db.collection("leaderboard").get();
+            const batch = db.batch();
+            snapshot.docs.forEach(doc => {
+                batch.delete(doc.ref);
+            });
+            await batch.commit();
+            alert("排行榜紀錄已全數刪除！");
+            loadLeaderboard();
+        } catch (e) {
+            alert("刪除失敗：" + e.message);
+        }
+    } else if (pwd !== null) {
+        alert("密碼錯誤！");
+    }
+});
+
+// === 座標對位小工具 ===
+// 點擊總時數框或排行榜區塊時，顯示座標幫助調整
+document.querySelector('.result-time-box').addEventListener('click', (e) => {
+    const rect = e.currentTarget.parentElement.getBoundingClientRect();
+    const xPercent = ((e.clientX - rect.left) / rect.width * 100).toFixed(1);
+    const yPercent = ((e.clientY - rect.top) / rect.height * 100).toFixed(1);
+    alert(`總時數框點擊座標：\nleft: ${xPercent}%\ntop: ${yPercent}%`);
+});
+
+document.querySelector('.leaderboard-container').addEventListener('click', (e) => {
+    const rect = e.currentTarget.parentElement.getBoundingClientRect();
+    const xPercent = ((e.clientX - rect.left) / rect.width * 100).toFixed(1);
+    const yPercent = ((e.clientY - rect.top) / rect.height * 100).toFixed(1);
+    alert(`排行榜點擊座標：\nleft: ${xPercent}%\ntop: ${yPercent}%`);
+});
+
 // 載入榮譽英雄榜
 async function loadLeaderboard() {
     leaderboardBody.innerHTML = '<tr><td colspan="3">載入中...</td></tr>';
     try {
         const snapshot = await db.collection("leaderboard")
             .orderBy("totalTimeSec", "asc")
-            .limit(10)
+            .limit(50)
             .get();
         
         leaderboardBody.innerHTML = '';

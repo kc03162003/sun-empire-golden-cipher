@@ -132,11 +132,11 @@ input {
 /* 結算頁面時間座標框 (對位用) */
 .result-time-box {
     position: absolute;
-    /* 測試對位用的紅框已移除 */
-    background-color: transparent;
-    border: none;
+    /* 測試對位用的紅框重啟 */
+    background-color: rgba(255,0,0,0.3);
+    border: 2px dashed red;
     
-    color: white; 
+    color: black; /* 依據要求改為黑色字體 */
     font-size: 3rem; /* 放大兩倍 */
     font-weight: bold;
     font-family: monospace;
@@ -186,9 +186,9 @@ input {
 
 /* 讓排行榜完全融入背景圖 */
 #leaderboard-view .leaderboard-container {
-    /* 測試對位用的紅底與紅框已移除 */
-    background-color: transparent;
-    border: none;
+    /* 測試對位用的紅底與紅框重啟 */
+    background-color: rgba(255,0,0,0.3);
+    border: 2px dashed red;
     
     box-shadow: none;
     background-image: none;
