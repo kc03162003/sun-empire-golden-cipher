@@ -27,11 +27,11 @@ const LEVELS_CONFIG = [
 const RESULTS_POS = {
     1: { x: '33.0%', y: '65.6%' },
     2: { x: '12.8%', y: '88.7%' },
-    3: { x: '76.8%', y: '48.5%' }, /* 關卡3保持完美位置 */
+    3: { x: '53.9%', y: '43.5%' },
     4: { x: '5.6%', y: '61.0%' },
-    5: { x: '14.1%', y: '47.5%' },
-    6: { x: '53.9%', y: '88.5%' },
-    total: { x: '83.6%', y: '84.9%' }
+    5: { x: '14.1%', y: '46%' },
+    6: { x: '83.6%', y: '84%' },
+    total: { x: '83.6%', y: '83%' }
 };
 
 // === 應用程式狀態 (State) ===
@@ -307,9 +307,9 @@ goToUvBtn.addEventListener('click', async () => {
         levelStatus.forEach(l => {
             codesHtml += `
                 <div style="background: rgba(255,255,255,0.8); padding: 4px 10px; border-radius: 8px; border-left: 5px solid var(--wax-red); display: flex; justify-content: space-between; align-items: center;">
-                    <span style="font-weight: bold; color: var(--sea-blue); font-size: 1.26rem; white-space: nowrap;">${l.name}</span>
-                    <span style="color: var(--dark-text); font-size: 1.15rem; flex-grow: 1; margin: 0 10px; line-height: 1.2;">${l.uvMeaning}</span>
-                    <span style="font-family: monospace; font-weight: bold; font-size: 1.47rem; color: var(--wax-red);">${l.uvCode}</span>
+                    <span style="font-weight: bold; color: var(--sea-blue); font-size: 1.38rem; white-space: nowrap;">${l.name}</span>
+                    <span style="color: var(--dark-text); font-size: 1.26rem; flex-grow: 1; margin: 0 10px; line-height: 1.2;">${l.uvMeaning}</span>
+                    <span style="font-family: monospace; font-weight: bold; font-size: 1.61rem; color: var(--wax-red);">${l.uvCode}</span>
                 </div>
             `;
         });
