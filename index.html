@@ -14,7 +14,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Noto+Serif+TC:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=21">
+    <link rel="stylesheet" href="styles.css?v=22">
 </head>
 <body>
     <!-- 強制橫向螢幕提示 -->
@@ -31,6 +31,8 @@
                 <input type="text" id="team-name-input" placeholder="請輸入小隊名稱" autocomplete="off" style="width: 100%; max-width: 300px; text-align: center;">
                 <button id="start-btn" class="primary-btn">啟航穿越</button>
             </div>
+            <!-- 登入頁直接查看排行榜按鈕 -->
+            <button id="login-leaderboard-btn" class="secondary-btn" style="position: absolute; bottom: 5%; left: 5%; z-index: 10; transform: scale(0.75); transform-origin: bottom left;">英雄排行榜</button>
         </div>
 
         <!-- 航海任務圖 (Map View) -->
@@ -142,6 +144,6 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
     <!-- 主程式邏輯 -->
-    <script src="app.js?v=21"></script>
+    <script src="app.js?v=22"></script>
 </body>
 </html>

@@ -159,6 +159,12 @@ document.getElementById('start-btn').addEventListener('click', () => {
     switchView('map');
 });
 
+// 登入畫面直接看排行榜
+document.getElementById('login-leaderboard-btn').addEventListener('click', () => {
+    loadLeaderboard();
+    switchView('leaderboard');
+});
+
 function openLevel(id) {
     activeLevelId = id;
     const level = levelStatus.find(l => l.id === id);
