@@ -283,8 +283,6 @@ finishBtn.addEventListener('click', () => {
     switchView('results');
 });
 
-});
-
 goToUvBtn.addEventListener('click', async () => {
     const totalTime = levelStatus.reduce((acc, l) => acc + l.timeSec, 0);
     goToUvBtn.innerText = "紀錄上傳中...";
