@@ -303,14 +303,17 @@ goToUvBtn.addEventListener('click', async () => {
             totalTimeSec: totalTime,
             timestamp: firebase.firestore.FieldValue.serverTimestamp()
         });
-        
-        // 顯示紫光密碼與故事總表
-        const codesHtml = levelStatus.map(l => 
-            `<div style="font-size: 1.3rem; margin-bottom: 5px; line-height: 1.2;">
-                <span style="font-family: monospace; font-size: 1.5rem; color: var(--wax-red); font-weight: bold;">${l.uvCode}</span> 
-                <span style="margin-left: 10px;">${l.uvMeaning}</span>
-            </div>`
-        ).join('');
+        let codesHtml = `<div style="display: flex; flex-direction: column; gap: 5px;">`;
+        levelStatus.forEach(l => {
+            codesHtml += `
+                <div style="background: rgba(255,255,255,0.8); padding: 5px 15px; border-radius: 8px; border-left: 5px solid var(--wax-red); display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-weight: bold; color: var(--sea-blue); font-size: 1.2rem;">${l.name}</span>
+                    <span style="color: var(--dark-text); font-size: 1.1rem; flex-grow: 1; margin: 0 15px;">${l.uvMeaning}</span>
+                    <span style="font-family: monospace; font-weight: bold; font-size: 1.5rem; color: var(--wax-red);">${l.uvCode}</span>
+                </div>
+            `;
+        });
+        codesHtml += `</div>`;
         uvCodesList.innerHTML = codesHtml;
         
         switchView('uvSummary');
@@ -330,13 +333,30 @@ setTimeout(() => {
         l.timeSec = (idx + 1) * 60 + 34; 
         l.uvCode = l.uvAnswer; 
     });
-    // 為了避免洗板，我們手動切換畫面與填值，不觸發上傳
-    switchView('results');
-    resultsTeamName.innerText = `冒險小隊：${teamName}`;
-    const totalSec = levelStatus.reduce((acc, l) => acc + l.timeSec, 0);
-    resultsTotalTime.innerText = formatTime(totalSec);
     
-    // 順便把排行榜資料抓下來，以便隨時切換過去看
+    // 手動產生完整的結算畫面紅框，不觸發上傳
+    const container = document.getElementById('results-container');
+    container.innerHTML = ''; 
+    levelStatus.forEach(l => {
+        const div = document.createElement('div');
+        div.className = 'result-time-box';
+        div.style.left = RESULTS_POS[l.id].x;
+        div.style.top = RESULTS_POS[l.id].y;
+        div.innerText = formatTime(l.timeSec);
+        container.appendChild(div);
+    });
+    const totalTime = levelStatus.reduce((acc, l) => acc + l.timeSec, 0);
+    const totalDiv = document.createElement('div');
+    totalDiv.className = 'result-time-box';
+    totalDiv.style.left = RESULTS_POS.total.x;
+    totalDiv.style.top = RESULTS_POS.total.y;
+    totalDiv.style.fontSize = '4.5rem';
+    totalDiv.innerHTML = `<span style="font-size: 0.5em;">總計: </span>${formatTime(totalTime)}`;
+    container.appendChild(totalDiv);
+
+    switchView('results');
+    
+    // 順便把排行榜資料抓下來
     loadLeaderboard();
 }, 500);
 
