@@ -156,8 +156,8 @@ input {
 
 /* 讓紫光密碼完全融入背景圖 */
 #uv-summary-view .login-container {
-    background-color: transparent;
-    border: none;
+    background-color: rgba(255,0,0,0.3);
+    border: 2px dashed red;
     box-shadow: none;
     background-image: none;
     padding: 0;
@@ -193,9 +193,9 @@ input {
     box-shadow: none;
     background-image: none;
     
-    /* 寬度 50%、長度(高度) 60%，並定點至指定座標 */
-    width: 50%;
-    height: 60%;
+    /* 依據指示縮小 10% (原 50% 變 45%，原 60% 變 54%) */
+    width: 45%;
+    height: 54%;
     position: absolute;
     top: 66%;
     left: 51.5%;
