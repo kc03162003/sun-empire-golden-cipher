@@ -162,6 +162,7 @@ input {
     background-image: none;
     padding: 0;
     
+    max-width: 800px; /* 放寬最大寬度，減少文字換行 */
     width: 75%; /* 寬度拉大15% */
     height: 60%;
     position: absolute;

@@ -289,13 +289,13 @@ goToUvBtn.addEventListener('click', async () => {
             totalTimeSec: totalTime,
             timestamp: firebase.firestore.FieldValue.serverTimestamp()
         });
-        let codesHtml = `<div style="display: flex; flex-direction: column; gap: 5px;">`;
+        let codesHtml = `<div style="display: flex; flex-direction: column; gap: 3px;">`;
         levelStatus.forEach(l => {
             codesHtml += `
-                <div style="background: rgba(255,255,255,0.8); padding: 5px 15px; border-radius: 8px; border-left: 5px solid var(--wax-red); display: flex; justify-content: space-between; align-items: center;">
-                    <span style="font-weight: bold; color: var(--sea-blue); font-size: 1.2rem;">${l.name}</span>
-                    <span style="color: var(--dark-text); font-size: 1.1rem; flex-grow: 1; margin: 0 15px;">${l.uvMeaning}</span>
-                    <span style="font-family: monospace; font-weight: bold; font-size: 1.5rem; color: var(--wax-red);">${l.uvCode}</span>
+                <div style="background: rgba(255,255,255,0.8); padding: 4px 10px; border-radius: 8px; border-left: 5px solid var(--wax-red); display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-weight: bold; color: var(--sea-blue); font-size: 1rem; white-space: nowrap;">${l.name}</span>
+                    <span style="color: var(--dark-text); font-size: 0.9rem; flex-grow: 1; margin: 0 10px; line-height: 1.2;">${l.uvMeaning}</span>
+                    <span style="font-family: monospace; font-weight: bold; font-size: 1.2rem; color: var(--wax-red);">${l.uvCode}</span>
                 </div>
             `;
         });
