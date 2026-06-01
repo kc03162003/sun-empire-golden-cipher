@@ -196,9 +196,9 @@ input {
     
     /* 依據指示縮小 10% (原 50% 變 45%，原 60% 變 54%) */
     width: 45%;
-    height: 54%;
+    height: 48%;
     position: absolute;
-    top: 66%;
+    top: 68%;
     left: 51.5%;
     transform: translate(-50%, -50%);
 }
