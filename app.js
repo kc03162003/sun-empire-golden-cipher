@@ -48,7 +48,8 @@ const views = {
     map: document.getElementById('map-view'),
     results: document.getElementById('results-view'),
     uvSummary: document.getElementById('uv-summary-view'),
-    leaderboard: document.getElementById('leaderboard-view')
+    leaderboard: document.getElementById('leaderboard-view'),
+    classLeaderboard: document.getElementById('class-leaderboard-view')
 };
 const modal = document.getElementById('level-modal');
 const teamNameInput = document.getElementById('team-name-input');
@@ -79,6 +80,7 @@ const answerInput = document.getElementById('answer-input');
 const answerFeedback = document.getElementById('answer-feedback');
 const modalImage = document.getElementById('modal-level-image');
 const leaderboardBody = document.getElementById('leaderboard-body');
+const classLeaderboardBody = document.getElementById('class-leaderboard-body');
 
 // === 輔助函式 ===
 function switchView(viewName) {
@@ -165,6 +167,12 @@ document.getElementById('start-btn').addEventListener('click', () => {
 document.getElementById('login-leaderboard-btn').addEventListener('click', () => {
     loadLeaderboard();
     switchView('leaderboard');
+});
+
+// 登入畫面直接看班際排名
+document.getElementById('login-class-leaderboard-btn').addEventListener('click', () => {
+    loadClassLeaderboard();
+    switchView('classLeaderboard');
 });
 
 function openLevel(id) {
@@ -334,6 +342,11 @@ goToLeaderboardBtn.addEventListener('click', () => {
     loadLeaderboard();
 });
 
+// 班際排名：返回登入首頁
+document.getElementById('class-restart-btn').addEventListener('click', () => {
+    switchView('login');
+});
+
 // 排行榜：重新開始下一組
 document.getElementById('restart-btn').addEventListener('click', () => {
     if(confirm("確定要結束這組的冒險並回到首頁嗎？")) {
@@ -428,6 +441,55 @@ async function loadLeaderboard() {
     } catch (e) {
         console.error("Error loading leaderboard: ", e);
         leaderboardBody.innerHTML = '<tr><td colspan="3">載入失敗</td></tr>';
+    }
+}
+
+// 載入班際排名
+async function loadClassLeaderboard() {
+    classLeaderboardBody.innerHTML = '<tr><td colspan="3">載入中...</td></tr>';
+    try {
+        const snapshot = await db.collection("leaderboard").get();
+        
+        classLeaderboardBody.innerHTML = '';
+        if (snapshot.empty) {
+            classLeaderboardBody.innerHTML = '<tr><td colspan="3">尚無紀錄</td></tr>';
+            return;
+        }
+        
+        const classData = {};
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            const className = data.teamName.substring(0, 3);
+            if (!classData[className]) {
+                classData[className] = { time: 0, count: 0 };
+            }
+            classData[className].time += data.totalTimeSec;
+            classData[className].count++;
+        });
+
+        // 轉換為陣列並排序
+        const sortedClasses = Object.keys(classData).map(c => {
+            return {
+                className: c,
+                totalTimeSec: classData[c].time,
+                count: classData[c].count
+            };
+        }).sort((a, b) => a.totalTimeSec - b.totalTimeSec);
+        
+        let rank = 1;
+        sortedClasses.forEach(data => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td style="width: 20%; padding: 15px; text-align: center; font-size: 1.5rem; border-bottom: 1px dashed rgba(212, 175, 55, 0.3); color: black; font-weight: bold;">${rank}</td>
+                <td style="width: 50%; padding: 15px; text-align: center; font-size: 1.5rem; border-bottom: 1px dashed rgba(212, 175, 55, 0.3); color: black; font-weight: bold;">${data.className}班 <span style="font-size: 1rem; color: #555;">(${data.count}組)</span></td>
+                <td style="width: 30%; padding: 15px; text-align: center; font-size: 1.5rem; border-bottom: 1px dashed rgba(212, 175, 55, 0.3); color: black; font-weight: bold;">${formatTime(data.totalTimeSec)}</td>
+            `;
+            classLeaderboardBody.appendChild(tr);
+            rank++;
+        });
+    } catch (e) {
+        console.error("Error loading class leaderboard: ", e);
+        classLeaderboardBody.innerHTML = '<tr><td colspan="3">載入失敗</td></tr>';
     }
 }
 
