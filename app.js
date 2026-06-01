@@ -307,9 +307,9 @@ goToUvBtn.addEventListener('click', async () => {
         levelStatus.forEach(l => {
             codesHtml += `
                 <div style="background: rgba(255,255,255,0.8); padding: 4px 10px; border-radius: 8px; border-left: 5px solid var(--wax-red); display: flex; justify-content: space-between; align-items: center;">
-                    <span style="font-weight: bold; color: var(--sea-blue); font-size: 1.2rem; white-space: nowrap;">${l.name}</span>
-                    <span style="color: var(--dark-text); font-size: 1.1rem; flex-grow: 1; margin: 0 10px; line-height: 1.2;">${l.uvMeaning}</span>
-                    <span style="font-family: monospace; font-weight: bold; font-size: 1.4rem; color: var(--wax-red);">${l.uvCode}</span>
+                    <span style="font-weight: bold; color: var(--sea-blue); font-size: 1.26rem; white-space: nowrap;">${l.name}</span>
+                    <span style="color: var(--dark-text); font-size: 1.15rem; flex-grow: 1; margin: 0 10px; line-height: 1.2;">${l.uvMeaning}</span>
+                    <span style="font-family: monospace; font-weight: bold; font-size: 1.47rem; color: var(--wax-red);">${l.uvCode}</span>
                 </div>
             `;
         });

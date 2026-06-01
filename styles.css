@@ -194,11 +194,10 @@ input {
     box-shadow: none;
     background-image: none;
     
-    /* 依據指示縮小 10% (原 50% 變 45%，原 60% 變 54%) */
     width: 45%;
-    height: 48%;
+    height: 46%; /* 再縮短 2% */
     position: absolute;
-    top: 68%;
+    top: 65%; /* 往上移 3% */
     left: 51.5%;
     transform: translate(-50%, -50%);
 }
