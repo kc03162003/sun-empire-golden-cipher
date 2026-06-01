@@ -208,6 +208,9 @@ document.getElementById('submit-answer-btn').addEventListener('click', () => {
         answerFeedback.className = 'feedback success';
         answerFeedback.innerText = '✅ 密碼正確！';
         
+        // 謎題解開，立即停止計時
+        clearInterval(timerInterval);
+        
         // 切換到第二階段
         setTimeout(() => {
             step1Controls.style.display = 'none';
