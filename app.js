@@ -481,7 +481,7 @@ async function loadClassLeaderboard() {
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td style="width: 20%; padding: 15px; text-align: center; font-size: 1.5rem; border-bottom: 1px dashed rgba(212, 175, 55, 0.3); color: black; font-weight: bold;">${rank}</td>
-                <td style="width: 50%; padding: 15px; text-align: center; font-size: 1.5rem; border-bottom: 1px dashed rgba(212, 175, 55, 0.3); color: black; font-weight: bold;">${data.className}班 <span style="font-size: 1rem; color: #555;">(${data.count}組)</span></td>
+                <td style="width: 50%; padding: 15px; text-align: center; font-size: 1.5rem; border-bottom: 1px dashed rgba(212, 175, 55, 0.3); color: black; font-weight: bold;">${data.className}班</td>
                 <td style="width: 30%; padding: 15px; text-align: center; font-size: 1.5rem; border-bottom: 1px dashed rgba(212, 175, 55, 0.3); color: black; font-weight: bold;">${formatTime(data.totalTimeSec)}</td>
             `;
             classLeaderboardBody.appendChild(tr);

@@ -14,7 +14,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Noto+Serif+TC:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=24">
+    <link rel="stylesheet" href="styles.css?v=25">
 </head>
 <body>
     <!-- 強制橫向螢幕提示 -->
@@ -32,8 +32,8 @@
                 <button id="start-btn" class="primary-btn">啟航穿越</button>
             </div>
             <!-- 登入頁直接查看排行榜按鈕 -->
-            <button id="login-leaderboard-btn" class="secondary-btn" style="position: absolute; bottom: 5%; left: 5%; z-index: 10; transform: scale(0.75); transform-origin: bottom left;">英雄排行榜</button>
-            <button id="login-class-leaderboard-btn" class="secondary-btn" style="position: absolute; bottom: 5%; left: 20%; z-index: 10; transform: scale(0.75); transform-origin: bottom left; background-color: #d4af37; color: #1b263b;">班際排名</button>
+            <button id="login-leaderboard-btn" class="secondary-btn" style="position: absolute; bottom: 13%; left: 5%; z-index: 10; transform: scale(0.75); transform-origin: bottom left;">英雄排行榜</button>
+            <button id="login-class-leaderboard-btn" class="secondary-btn" style="position: absolute; bottom: 5%; left: 5%; z-index: 10; transform: scale(0.75); transform-origin: bottom left;">班際總排名</button>
         </div>
 
         <!-- 航海任務圖 (Map View) -->
@@ -137,13 +137,13 @@
         </div>
 
         <!-- 班際排名 (Class Leaderboard View) -->
-        <div id="class-leaderboard-view" class="view">
+        <div id="class-leaderboard-view" class="view" style="background-image: url('assets/class-bg.png'); background-size: cover; background-position: center;">
             <div class="leaderboard-container">
                 <table style="width: 100%; border-collapse: collapse; margin-bottom: 5px; table-layout: fixed;">
                     <thead>
                         <tr>
                             <th style="width: 20%; padding: 10px; text-align: center; font-size: 1.5rem; color: var(--sea-blue); border-bottom: 2px solid var(--compass-gold);">名次</th>
-                            <th style="width: 50%; padding: 10px; text-align: center; font-size: 1.5rem; color: var(--sea-blue); border-bottom: 2px solid var(--compass-gold);">班級 (完成組數)</th>
+                            <th style="width: 50%; padding: 10px; text-align: center; font-size: 1.5rem; color: var(--sea-blue); border-bottom: 2px solid var(--compass-gold);">班級</th>
                             <th style="width: 30%; padding: 10px; text-align: center; font-size: 1.5rem; color: var(--sea-blue); border-bottom: 2px solid var(--compass-gold);">總耗時</th>
                         </tr>
                     </thead>
@@ -168,6 +168,6 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
     <!-- 主程式邏輯 -->
-    <script src="app.js?v=24"></script>
+    <script src="app.js?v=25"></script>
 </body>
 </html>
