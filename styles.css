@@ -185,7 +185,8 @@ input {
 }
 
 /* 讓排行榜完全融入背景圖 */
-#leaderboard-view .leaderboard-container {
+#leaderboard-view .leaderboard-container,
+#class-leaderboard-view .leaderboard-container {
     /* 已移除紅框與底色，正式上線 */
     background-color: transparent;
     border: none;
