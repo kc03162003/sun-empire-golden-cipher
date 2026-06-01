@@ -322,7 +322,23 @@ goToUvBtn.addEventListener('click', async () => {
     }
 });
 
-// 開發測試通道已關閉，系統進入正式運行模式
+// === 開發測試通道：直接進入成績結算 ===
+setTimeout(() => {
+    teamName = "測試小隊(對位專用)";
+    levelStatus.forEach((l, idx) => {
+        l.completed = true;
+        l.timeSec = (idx + 1) * 60 + 34; 
+        l.uvCode = l.uvAnswer; 
+    });
+    // 為了避免洗板，我們手動切換畫面與填值，不觸發上傳
+    switchView('results');
+    resultsTeamName.innerText = `冒險小隊：${teamName}`;
+    const totalSec = levelStatus.reduce((acc, l) => acc + l.timeSec, 0);
+    resultsTotalTime.innerText = formatTime(totalSec);
+    
+    // 順便把排行榜資料抓下來，以便隨時切換過去看
+    loadLeaderboard();
+}, 500);
 
 goToLeaderboardBtn.addEventListener('click', () => {
     switchView('leaderboard');
