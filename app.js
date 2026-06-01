@@ -269,13 +269,6 @@ finishBtn.addEventListener('click', () => {
     switchView('results');
 });
 
-// 結算畫面點擊對位工具
-document.getElementById('results-view').addEventListener('click', (e) => {
-    if(e.target.closest('.result-time-box') || e.target.closest('.primary-btn')) return;
-    const rect = e.currentTarget.getBoundingClientRect();
-    const xPercent = ((e.clientX - rect.left) / rect.width * 100).toFixed(1);
-    const yPercent = ((e.clientY - rect.top) / rect.height * 100).toFixed(1);
-    alert(`您點擊的座標是：\nx: "${xPercent}%", y: "${yPercent}%"\n\n請將這組數字填進 app.js 裡面的 RESULTS_POS！`);
 });
 
 goToUvBtn.addEventListener('click', async () => {
@@ -311,40 +304,7 @@ goToUvBtn.addEventListener('click', async () => {
     }
 });
 
-// === 開發測試通道：直接進入成績結算 ===
-setTimeout(() => {
-    teamName = "測試小隊(對位專用)";
-    levelStatus.forEach((l, idx) => {
-        l.completed = true;
-        l.timeSec = (idx + 1) * 60 + 34; 
-        l.uvCode = l.uvAnswer; 
-    });
-    
-    // 手動產生完整的結算畫面紅框，不觸發上傳
-    const container = document.getElementById('results-container');
-    container.innerHTML = ''; 
-    levelStatus.forEach(l => {
-        const div = document.createElement('div');
-        div.className = 'result-time-box';
-        div.style.left = RESULTS_POS[l.id].x;
-        div.style.top = RESULTS_POS[l.id].y;
-        div.innerText = formatTime(l.timeSec);
-        container.appendChild(div);
-    });
-    const totalTime = levelStatus.reduce((acc, l) => acc + l.timeSec, 0);
-    const totalDiv = document.createElement('div');
-    totalDiv.className = 'result-time-box';
-    totalDiv.style.left = RESULTS_POS.total.x;
-    totalDiv.style.top = RESULTS_POS.total.y;
-    totalDiv.style.fontSize = '4.5rem';
-    totalDiv.innerHTML = `<span style="font-size: 0.5em;">總計: </span>${formatTime(totalTime)}`;
-    container.appendChild(totalDiv);
-
-    switchView('results');
-    
-    // 順便把排行榜資料抓下來
-    loadLeaderboard();
-}, 500);
+/* 測試通道已移除，準備正式上線 */
 
 goToLeaderboardBtn.addEventListener('click', () => {
     switchView('leaderboard');
