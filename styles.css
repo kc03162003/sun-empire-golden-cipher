@@ -44,7 +44,7 @@ h1, h2, h3 {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-size: cover;
+    background-size: 100% 100%;
     background-position: center;
 }
 
@@ -106,7 +106,7 @@ input {
 /* === 登入大廳 (Login View) === */
 #login-view {
     background-image: url('assets/login-bg.png'); 
-    background-size: cover;
+    background-size: 100% 100%;
     background-position: center;
     background-color: var(--sea-blue); /* 尚未有圖時的底色 */
 }
@@ -147,7 +147,7 @@ input {
 /* 紫光與排行榜背景 */
 #uv-summary-view {
     background-image: url('assets/uv-bg.png');
-    background-size: cover;
+    background-size: 100% 100%;
     background-position: center;
     background-color: var(--sea-blue);
 }
@@ -179,7 +179,7 @@ input {
 
 #leaderboard-view {
     background-image: url('assets/leaderboard-bg.png');
-    background-size: cover;
+    background-size: 100% 100%;
     background-position: center;
     background-color: var(--sea-blue);
 }
@@ -233,7 +233,7 @@ input {
 .map-layer {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
-    background-size: cover;
+    background-size: 100% 100%;
     background-position: center;
 }
 
