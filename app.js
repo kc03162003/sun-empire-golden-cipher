@@ -387,6 +387,14 @@ document.querySelector('.leaderboard-container').addEventListener('click', (e) =
     alert(`排行榜點擊座標：\nleft: ${xPercent}%\ntop: ${yPercent}%`);
 });
 
+document.getElementById('uv-summary-view').addEventListener('click', (e) => {
+    if(e.target.closest('.primary-btn')) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const xPercent = ((e.clientX - rect.left) / rect.width * 100).toFixed(1);
+    const yPercent = ((e.clientY - rect.top) / rect.height * 100).toFixed(1);
+    alert(`紫光畫面點擊座標：\nleft: ${xPercent}%\ntop: ${yPercent}%`);
+});
+
 // 載入榮譽英雄榜
 async function loadLeaderboard() {
     leaderboardBody.innerHTML = '<tr><td colspan="3">載入中...</td></tr>';
