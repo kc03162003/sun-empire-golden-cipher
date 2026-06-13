@@ -303,16 +303,19 @@ finishBtn.addEventListener('click', () => {
 });
 
 goToUvBtn.addEventListener('click', async () => {
+    const allCompleted = levelStatus.every(l => l.completed);
     const totalTime = levelStatus.reduce((acc, l) => acc + l.timeSec, 0);
     goToUvBtn.innerText = "紀錄上傳中...";
     goToUvBtn.disabled = true;
     
     try {
-        await db.collection("leaderboard").add({
-            teamName: teamName,
-            totalTimeSec: totalTime,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp()
-        });
+        if (allCompleted && teamName) {
+            await db.collection("leaderboard").add({
+                teamName: teamName,
+                totalTimeSec: totalTime,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            });
+        }
         let codesHtml = `<div style="display: flex; flex-direction: column; gap: 3px;">`;
         levelStatus.forEach(l => {
             codesHtml += `
@@ -327,6 +330,11 @@ goToUvBtn.addEventListener('click', async () => {
         uvCodesList.innerHTML = codesHtml;
         
         switchView('uvSummary');
+        
+        // Reset button state
+        goToUvBtn.innerText = "獲取紫光密碼";
+        goToUvBtn.disabled = false;
+        
     } catch (e) {
         console.error("Error adding document: ", e);
         alert("上傳失敗，請檢查網路連線。");
@@ -361,9 +369,22 @@ document.getElementById('restart-btn').addEventListener('click', () => {
     }
 });
 
-// 排行榜：返回結算頁面
-document.getElementById('back-to-results-btn').addEventListener('click', () => {
-    switchView('results');
+// 排行榜：前往紫光密碼
+document.getElementById('leaderboard-to-uv-btn').addEventListener('click', () => {
+    let codesHtml = `<div style="display: flex; flex-direction: column; gap: 3px;">`;
+    levelStatus.forEach(l => {
+        codesHtml += `
+            <div style="background: rgba(255,255,255,0.8); padding: 4px 10px; border-radius: 8px; border-left: 5px solid var(--wax-red); display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-weight: bold; color: var(--sea-blue); font-size: 1.38rem; white-space: nowrap;">${l.name}</span>
+                <span style="color: var(--dark-text); font-size: 1.26rem; flex-grow: 1; margin: 0 10px; line-height: 1.2;">${l.uvMeaning}</span>
+                <span style="font-family: monospace; font-weight: bold; font-size: 1.61rem; color: var(--wax-red);">${l.uvCode}</span>
+            </div>
+        `;
+    });
+    codesHtml += `</div>`;
+    uvCodesList.innerHTML = codesHtml;
+    
+    switchView('uvSummary');
 });
 
 // 排行榜：刪除紀錄
