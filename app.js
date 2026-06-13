@@ -289,16 +289,19 @@ finishBtn.addEventListener('click', () => {
 });
 
 goToUvBtn.addEventListener('click', async () => {
+    const allCompleted = levelStatus.every(l => l.completed);
     const totalTime = levelStatus.reduce((acc, l) => acc + l.timeSec, 0);
     goToUvBtn.innerText = "紀錄上傳中...";
     goToUvBtn.disabled = true;
     
     try {
-        await db.collection("leaderboard").add({
-            teamName: teamName,
-            totalTimeSec: totalTime,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp()
-        });
+        if (allCompleted && teamName) {
+            await db.collection("leaderboard").add({
+                teamName: teamName,
+                totalTimeSec: totalTime,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            });
+        }
         let codesHtml = `<div style="display: flex; flex-direction: column; gap: 3px;">`;
         levelStatus.forEach(l => {
             codesHtml += `
@@ -313,6 +316,11 @@ goToUvBtn.addEventListener('click', async () => {
         uvCodesList.innerHTML = codesHtml;
         
         switchView('uvSummary');
+        
+        // Reset button state
+        goToUvBtn.innerText = "獲取紫光密碼";
+        goToUvBtn.disabled = false;
+        
     } catch (e) {
         console.error("Error adding document: ", e);
         alert("上傳失敗，請檢查網路連線。");
